@@ -4,4 +4,5 @@ build
 mina
 node_modules
 .nuxt
+#logs
 yarn-error.log
