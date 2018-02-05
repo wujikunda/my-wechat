@@ -13,7 +13,7 @@ export default async (ctx, next) => {
   const message = ctx.weixin
   let mp = require('../wechat')
   let client = mp.getWechat()
-
+  console.log(message)
   if (message.MsgType === 'event') {
     if (message.Event === 'subscribe') {
       ctx.body = tip
