@@ -4,6 +4,7 @@
   </section>
 </template>
 <script>
+import { mapState } from 'vuex'
 
 export default {
   asyncData({ req }) {
@@ -16,15 +17,18 @@ export default {
       title: `测试页面`
     }
   },
+  computed: {
+    ...mapState([
+      'baseUrl'
+    ])
+  },
   beforeMount() {
     const wx = window.wx
     const url = window.location.href
-
     this.$store.dispatch('getWechatSignature', url)
       .then(res => {
         if (res.data.success) {
           const params = res.data.params
-          console.log(res)
           wx.config({
             debug: true,
             appId: params.appId,

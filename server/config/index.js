@@ -1,5 +1,6 @@
 export default {
   db: 'mongodb://localhost/wechat',
+  SITE_ROOT_URL: 'http://wujikunda.vicp.io',
   wechat: {
     token: 'whathapp',
     appID: 'wx22798bb06a450c11',

@@ -28,9 +28,7 @@ export async function redirect(ctx, next) {
     id
   } = ctx.query
   const params = id ? `${visit}_${id}` : visit
-
   const url = wechat.getAuthorizeURL(scope, redirect, params)
-
   ctx.redirect(url)
 }
 
@@ -41,7 +39,6 @@ export async function oauth(ctx, next) {
   const code = params.code
   const user = await wechat.getUserByCode(code)
 
-  console.log(user)
   ctx.session = {
     openid: user.openid
   }
