@@ -1,7 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = ''
-
+const baseUrl = 'http://rapapi.org/mockjsdata/31643'
 class Services {
   /**
    * 查询所有家族
@@ -43,7 +42,8 @@ class Services {
    * @return {Promise}
    */
   allProducts() {
-    return axios.get(`${baseUrl}/api/products`)
+    return axios.get(`${baseUrl}/wiki/products`)
+    // return axios.get(`${baseUrl}/api/products`)
   }
 
   /**
@@ -52,7 +52,8 @@ class Services {
    * @return {Promise}
    */
   focusProduct(id) {
-    return axios.get(`${baseUrl}/api/products/${id}`)
+    return axios.get(`${baseUrl}/wiki/products/${id}`)
+    // return axios.get(`${baseUrl}/api/products/${id}`)
   }
 
   /**
@@ -105,7 +106,8 @@ class Services {
   }
 
   getPayments() {
-    return axios.get('/api/payments')
+    return axios.get(`${baseUrl}/wiki/payments`)
+    // return axios.get('/api/payments')
   }
   /**
    * 测试完成获取结果

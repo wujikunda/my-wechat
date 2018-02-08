@@ -77,8 +77,7 @@ export default {
     state
   }) {
     const res = await Services.allHouses()
-    state.houses = res.data
-
+    state.houses = res.data.data
     return res
   },
 
@@ -86,8 +85,7 @@ export default {
     state
   }) {
     const res = await Services.povCharacters(500)
-
-    state.characters = res.data
+    state.characters = res.data.data
     return res
   },
 
@@ -96,8 +94,7 @@ export default {
   }) {
     const res = await Services.allProducts()
 
-    console.log(res.data)
-    state.products = res.data
+    state.products = res.data.data
     return res
   },
 
@@ -106,7 +103,8 @@ export default {
   }, _id) {
     if (_id === state.focusProduct._id) return
     const res = await Services.focusProduct(_id)
-    state.focusProduct = res.data
+    state.focusProduct = res.data.data
+    console.log('state.focusProduct', state.focusProduct)
     return res
   },
 
@@ -117,7 +115,8 @@ export default {
       data
     } = await Services.getPayments()
     console.log(data)
-    state.payments = data
+    state.payments = data.payments
+    state.authUser = data.authUser
     return data
   },
 
