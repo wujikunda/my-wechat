@@ -1,16 +1,16 @@
 import rp from 'request-promise'
-import cheerioAdv from 'cheerio-advanced-selectors'
+// import cheerioAdv from 'cheerio-advanced-selectors'
 import _ from 'lodash'
 import { writeFileSync } from 'fs'
 import Promise from 'bluebird'
 import R from 'ramda'
 import { resolve } from 'path'
-import qiniu from '../libs/qiniu'
+// import qiniu from '../libs/qiniu'
 import randomToken from 'random-token'
 
-const cheerio = cheerioAdv.wrap(require('cheerio'))
+// const cheerio = cheerioAdv.wrap(require('cheerio'))
 const sleep = time => new Promise(resolve => setTimeout(resolve, time))
-const fetchImage = qiniu.fetchImage
+// const fetchImage = qiniu.fetchImage
 // 1.狼——史塔克家族，临冬城骁勇善战的家族，现任首领是北境之王罗伯特·史塔克。
 // 2.鹰——艾林家族，血统最纯正的安达尔贵族后代，罗伯特的母亲是艾琳家族人。
 // 3.鱼——徒利家族，三叉戟河流域的特首。
@@ -85,7 +85,6 @@ const normalizedContent = content => _.reduce(content, (acc, item) => {
   return acc
 }, [])
 
-
 const normalizedSections = R.compose(
   R.nth(1),
   R.splitAt(1),
@@ -131,7 +130,6 @@ const getWikiDetail = async data => {
     console.log('error:', e)
   }
   res = JSON.parse(res)
-  console.log(id, 'done')
 
   const getCnameAndIntro = R.compose(
     i => ({
@@ -154,7 +152,7 @@ const getWikiDetail = async data => {
 
   let cnameAndIntro = getCnameAndIntro(res)
   let sections = getLevel(res)
-  let _res = R.merge(data, getCnameAndIntro(res))
+  let _res = R.merge(data, cnameAndIntro)
 
   sections = normalizedSections(sections)
 
@@ -164,23 +162,21 @@ const getWikiDetail = async data => {
   return R.pick(['name', 'cname', 'playedBy', 'profile', 'images', 'nmId', 'chId', 'sections', 'intro', 'wikiId', 'words'], _res)
 }
 
-
 /**
  * 根据 IMDb.json 这份数据，爬 wiki 上的人物数据，并且整合
  */
 export const getWikiCharacters = async IMDbCharacters => {
+  console.log(IMDbCharacters.length)
   let data = R.map(getWikiId, IMDbCharacters)
-
   data = await Promise.all(data)
-
   data = R.map(getWikiDetail, data)
   data = await Promise.all(data)
-
-  writeFileSync(jsonPath('wikiCharacters.json'), JSON.stringify(data, null, 4), 'utf8')
+  writeFileSync(resolve(__dirname, './data/finalCharacters.json'), JSON.stringify(data, null, 2), 'utf8')
+  // writeFileSync(jsonPath('wikiCharacters.json'), JSON.stringify(data, null, 4), 'utf8')
 
   return data
 }
-
+getWikiCharacters(require(resolve(__dirname, './data/imdbCharacters.json')))
 /**
  * 从 wiki 上获取家族数据
  */

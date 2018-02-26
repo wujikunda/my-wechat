@@ -91,16 +91,19 @@ export const getIMDbProfile = async (url) => {
   //   img = img.split('_V1').shift()
   //   img += '_V1.jpg'
   // }
-  let character = require(resolve(__dirname, './data/wikiCharacters.json'))
+  let data = ''
+  let character = require(resolve(__dirname, './data/imdbCharacters.json'))
 
-  for (let i = 0; i < 2; i++) {
-    if (!character[i].profile) {
+  for (let i = 0; i < character.length; i++) {
+    if (!character[i].images) {
       const src = `http://www.imdb.com/title/tt0944947/characters/${character[i].nmId}`
-      const data = await getIMDbImages(src)
-      console.log(data)
+      data = await getIMDbImages(src)
+      character[i].images = data
+      writeFileSync('./server/crawler/data/imdbCharacters.json', JSON.stringify(character, null, 2), 'utf8')
+      await sleep(500)
     }
   }
-  return url
+  return data
 }
 
 export const getIMDbImages = async url => {
@@ -116,10 +119,8 @@ export const getIMDbImages = async url => {
   const $ = await rp(options)
 
   let images = []
-
-  $('div.media_index_thumb_list a img').each(function () {
+  $('.titlecharacters-image-grid__thumbnail-link img').each(function () {
     var src = $(this).attr('src')
-    console.log(src)
     if (src) {
       src = src.split('_V1').shift()
       src += '_V1.jpg'
@@ -129,4 +130,13 @@ export const getIMDbImages = async url => {
 
   return images
 }
-getIMDbProfile()
+
+export const checkIMDbImages = () => {
+  let character = require(resolve(__dirname, './data/imdbCharacters.json'))
+  character.forEach(element => {
+    if (!element.images) {
+      console.log(element.name)
+    }
+  })
+}
+checkIMDbImages()
