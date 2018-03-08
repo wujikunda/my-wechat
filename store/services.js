@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const baseUrl = 'http://rapapi.org/mockjsdata/31643'
+const baseUrl = ''
+// const baseUrl = 'http://rapapi.org/mockjsdata/31643'
 class Services {
   /**
    * 查询所有家族

@@ -43,7 +43,6 @@ export class Route {
     _.forIn(routersMap, (value, key) => {
       console.log(value, key)
     })
-
     for (let [conf, controller] of routersMap) {
       const controllers = isArray(controller)
       let prefixPath = conf.target[symbolPrefix]

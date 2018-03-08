@@ -6,7 +6,7 @@ import getters from './getters'
 const createStore = () => {
   return new Vuex.Store({
     state: {
-      imageCDN: '你的七牛 CDN',
+      imageCDN: 'http://p4qxmr4o6.bkt.clouddn.com/',
       homePageScroll: {
         'home': 0,
         'house': 0

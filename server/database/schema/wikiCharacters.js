@@ -4,6 +4,9 @@ const Mixed = Schema.Types.Mixed
 
 const WikiCharacterSchema = new Schema({
   _id: String,
+  wikiId: Number,
+  nmId: String,
+  chId: String,
   name: String,
   cname: String,
   playedBy: String,
@@ -14,13 +17,10 @@ const WikiCharacterSchema = new Schema({
   images: [
     String
   ],
-  nmId: String,
-  chId: String,
   sections: Mixed,
   intro: [
     String
-  ],
-  wikiId: Number
+  ]
 })
 
 mongoose.model('WikiCharacter', WikiCharacterSchema)

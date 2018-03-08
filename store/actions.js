@@ -77,15 +77,15 @@ export default {
     state
   }) {
     const res = await Services.allHouses()
-    state.houses = res.data.data
+    state.houses = res.data
     return res
   },
 
   async fetchCharacters({
     state
   }) {
-    const res = await Services.povCharacters(500)
-    state.characters = res.data.data
+    const res = await Services.povCharacters()
+    state.characters = res.data
     return res
   },
 

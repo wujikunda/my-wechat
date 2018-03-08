@@ -5,12 +5,12 @@ import { writeFileSync } from 'fs'
 import Promise from 'bluebird'
 import R from 'ramda'
 import { resolve } from 'path'
-// import qiniu from '../libs/qiniu'
+import qiniu from '../libs/qiniu'
 import randomToken from 'random-token'
 
 // const cheerio = cheerioAdv.wrap(require('cheerio'))
 const sleep = time => new Promise(resolve => setTimeout(resolve, time))
-// const fetchImage = qiniu.fetchImage
+const fetchImage = qiniu.fetchImage
 // 1.狼——史塔克家族，临冬城骁勇善战的家族，现任首领是北境之王罗伯特·史塔克。
 // 2.鹰——艾林家族，血统最纯正的安达尔贵族后代，罗伯特的母亲是艾琳家族人。
 // 3.鱼——徒利家族，三叉戟河流域的特首。
@@ -176,7 +176,7 @@ export const getWikiCharacters = async IMDbCharacters => {
 
   return data
 }
-getWikiCharacters(require(resolve(__dirname, './data/imdbCharacters.json')))
+// getWikiCharacters(require(resolve(__dirname, './data/imdbCharacters.json')))
 /**
  * 从 wiki 上获取家族数据
  */
@@ -231,28 +231,25 @@ export const getSwornMembers = async () => {
   writeFileSync(jsonPath('wikiHouses.json'), JSON.stringify(houses, null, 4), 'utf8')
 }
 
-
 /**
  * 将 IMDb 上原始的封面以及剧照，上传到七牛上
  */
 export const fetchImagesFromA2Q = async () => {
-  let IMDbCharacters = require(jsonPath('wikiCharacters.json'))
-
+  let IMDbCharacters = require(resolve(__dirname, './data/finalCharacters.json'))
   IMDbCharacters = R.map(async item => {
-    let key = `${item.name}/${randomToken(32)}`
+    let key = `${item.nmId}/${randomToken(32)}`
     await fetchImage(item.profile, key)
 
     item.profile = key
 
     for (let i = 0; i < item.images.length; ++i) {
-      let _key = `${item.name}/${randomToken(32)}`
+      let _key = `${item.nmId}/${randomToken(32)}`
       try {
         await fetchImage(item.images[i], _key)
       } catch (e) {
         item.images.splice(i, 1)
       }
       await sleep(100)
-
       item.images[i] = _key
     }
 
@@ -260,11 +257,10 @@ export const fetchImagesFromA2Q = async () => {
   })(IMDbCharacters)
 
   IMDbCharacters = await Promise.all(IMDbCharacters)
+  writeFileSync(resolve(__dirname, './data/completeCharacters.json'), JSON.stringify(IMDbCharacters, null, 2), 'utf8')
   console.log('fetchImagesFromA2Q done')
-  writeFileSync(jsonPath('wikiCharacters.json'), JSON.stringify(IMDbCharacters, null, 4), 'utf8')
 }
-
 
 // getHouses()
 // getSwornMembers()
-// fetchImagesFromA2Q()
+fetchImagesFromA2Q()

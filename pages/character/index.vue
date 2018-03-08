@@ -18,7 +18,7 @@
       p(v-for='item in character.intro') {{ item }}
     
     .focusCharacter-stills
-      img(v-for='item in character.images', :src="imageCDN + item + '?imageView2/1/w/750/h/460/format/jpg/q/90|imageslim'")
+      img(v-for='item in character.images', :src="imageCDN + item + '?imageView2/1/w/500/h/350/format/jpg/q/90|imageslim'")
   
     .focusCharacter-item(v-for='item in character.sections')
       .focusCharacter-item-title {{ item.title }}

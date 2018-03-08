@@ -6,14 +6,27 @@ require('babel-core/register')({
 })
 
 require('babel-polyfill')
-
+var resolve = require('path').resolve
+const r = path => resolve(__dirname, path)
 var R = require('ramda')
-
-var addFourNumbers = (a = 1, b = 2, c = 3, d = 4) => a + b + c + d
-
-var curriedAddFourNumbers = R.map(addFourNumbers, [
-  5,
-  [1, 2, 3, 4]
-])
-
-console.log(curriedAddFourNumbers)
+// const MIDDLEWARES = ['database', 'router']
+// this.useMiddleWares(this.app)(MIDDLEWARES)
+var square = i => i + i
+// function useMiddleWares(app) {
+//   return R.map(R.compose(
+//     R.map(i => i(app)),
+//     square,
+//     i => `${r('./middlewares')}/${i}`)
+//   )
+// }
+// console.log(require(r('./server/middlewares/database')))
+var k = 'database'
+function useMiddleWares(app) {
+  return R.map(R.compose(
+    R.map(i => i + i),
+    square,
+    i => i + i
+  ))
+}
+let app = i => i + i
+console.log(useMiddleWares(app)(k))

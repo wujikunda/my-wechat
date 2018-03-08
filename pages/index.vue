@@ -7,14 +7,13 @@
         .cname {{ item.name }}
         .name {{ item.cname }}
       .house-img-wrapper
-        img(:src="item.swornMembers[0].profile" height="150")
+        img(:src="imageCDN + item.cname + '.jpg'" height="480")
 
   .povCharacters
     .title 主要人物
     .povCharacter-wrapper
       .povCharacter-content(v-for='(item, index) in characters' :key='index' @click='focusCharacters(item)')
-        //- img(:src="imageCDN + item.profile + '?imageView2/1/w/280/h/440/format/jpg/q/75|imageslim'")
-        img(:src='item.profile')
+        img(:src="imageCDN + item.profile + '?imageView2/1/w/320/h/320/format/jpg/q/75|imageslim'")
         .povCharacter-text
           .cname {{ item.cname }}
           .name {{ item.name }}

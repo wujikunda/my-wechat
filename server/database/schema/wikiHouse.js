@@ -15,7 +15,13 @@ const HouseSchema = new Schema({
       character: { type: String, ref: 'WikiCharacter' },
       text: String
     }
-  ]
+  ],
+  meta: {
+    createdAt: {
+      type: Date,
+      default: Date.now()
+    }
+  }
 })
 
 mongoose.model('WikiHouse', HouseSchema)

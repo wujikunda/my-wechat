@@ -7,7 +7,7 @@ qiniu.conf.SECRET_KEY = config.qiniu.SK
 
 const bucket = config.qiniu.bucket
 
-const bucketManager = new qiniu.rs.Client()
+// const bucketManager = new qiniu.rs.Client()
 
 const uptoken = (key) => new qiniu.rs.PutPolicy(`${bucket}:${key}`).token()
 
@@ -29,19 +29,19 @@ const uploadFile = (uptoken, key, localFile) => new Promise((resolve, reject) =>
 // 然后配置账号
 // qshell account <你的AK> <你的SK>
 const fetchImage = async (url, key) => new Promise((resolve, reject) => {
-  let bash = `qshell fetch ${url} ${bucket} '${key}'`
+  let bash = `qshell fetch ${url} ${bucket} ${key}`
 
-  // let child = exec(bash, { async: true })
-  // child.stdout.on('data', data => {
-  //   resolve(data)
-  // })
-
-  exec(bash, (code, stdout, stderr) => {
-    if (stderr) return reject(stderr)
-    if (stdout === 'Fetch error, 504 , xreqid:') return reject(stdout)
-
-    resolve(stdout)
+  let child = exec(bash, { async: true })
+  child.stdout.on('data', data => {
+    resolve(data)
   })
+
+  // exec(bash, (code, stdout, stderr) => {
+  //   if (stderr) return reject(stderr)
+  //   if (stdout === 'Fetch error, 504 , xreqid:') return reject(stdout)
+
+  //   resolve(stdout)
+  // })
 })
 
 export default {
