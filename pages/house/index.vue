@@ -13,7 +13,7 @@
     .focusHouse-item-title 主要角色
     .focusHouse-item-body(v-for='(item, index) in house.swornMembers' :key='index' v-if="item.character")
       .swornMembers
-        img(:src="imageCDN + item.character.profile + '?imageView2/1/w/280/h/340/format/jpg/q/75|imageslim'")
+        img(:src="imageCDN + item.character.profile + '?imageView2/1/w/280/h/340/format/jpg/q/75|imageslim'" @click="toCharacter(item.character.nmId)")
         .swornMembers-body
           .name {{ item.character.cname }}
           .introduction {{ item.text }}
@@ -41,6 +41,11 @@ export default {
   beforeCreate() {
     let id = this.$route.query.id
     this.$store.dispatch('focusHouse', id)
+  },
+  methods: {
+    toCharacter(id) {
+      this.$router.push(`/character?id=${id}`)
+    }
   }
 }
 </script>

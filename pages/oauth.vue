@@ -1,35 +1,29 @@
 <template>
 </template>
+
 <script>
-import { mapState } from 'vuex'
+function getUrlParam(param) {
+  const reg = new RegExp('(^|&)' + param + '=([^&]*)(&|$)')
+  const result = window.location.search.substr(1).match(reg)
+  return result ? decodeURIComponent(result[2]) : null
+}
 
 export default {
-  asyncData({ req }) {
-    return {
-      name: req ? 'server' : 'client'
-    }
-  },
   head() {
     return {
-      title: `测试页面`
+      title: `loading`
     }
-  },
-  computed: {
-    ...mapState([
-      'baseUrl'
-    ])
   },
   beforeMount() {
     const url = window.location.href
-
     this.$store.dispatch('getWechatOAuth', url)
       .then(res => {
         const { data } = res
         console.log('datares', data)
         if (data.success) {
-          // this.$store.dispatch('setAuthUser', data.user)
-          // const visit = '/' + getUrlParam('state')
-          // this.$router.replace(visit)
+          this.$store.dispatch('setAuthUser', data.user)
+          const visit = '/' + getUrlParam('state')
+          this.$router.replace(visit)
         } else {
           throw new Error('用户信息获取失败')
         }

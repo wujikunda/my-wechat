@@ -86,6 +86,7 @@ export default {
       checked: false
     }
   },
+  layout: 'admin',
   computed: mapState([
     'IMDb',
     'APICharacters'

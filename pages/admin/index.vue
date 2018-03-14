@@ -104,6 +104,7 @@ export default {
       title: '爬取 IMDb cast 数据'
     }
   },
+  layout: 'admin',
   data() {
     return {
       step: 1,

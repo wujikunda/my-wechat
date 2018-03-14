@@ -13,6 +13,7 @@ export default {
         nickname,
         avatarUrl
       } = req.session.user
+      console.log(req.session)
       const user = {
         email,
         nickname,
@@ -48,7 +49,7 @@ export default {
     password
   }) {
     try {
-      let res = await axios.post('/api/login', {
+      let res = await axios.post('/admin/login', {
         email,
         password
       })
@@ -73,6 +74,13 @@ export default {
     commit('SET_USER', null)
   },
 
+  async createOrder({
+    state
+  }, obj) {
+    const { data } = Services.createOrder(obj)
+    return data
+  },
+
   async fetchHouses({
     state
   }) {
@@ -94,7 +102,7 @@ export default {
   }) {
     const res = await Services.allProducts()
 
-    state.products = res.data.data
+    state.products = res.data
     return res
   },
 
@@ -103,8 +111,7 @@ export default {
   }, _id) {
     if (_id === state.focusProduct._id) return
     const res = await Services.focusProduct(_id)
-    state.focusProduct = res.data.data
-    console.log('state.focusProduct', state.focusProduct)
+    state.focusProduct = res.data
     return res
   },
 
@@ -168,13 +175,22 @@ export default {
     return res.data
   },
 
+  async deleteProduct({
+    state,
+    dispatch
+  }, product) {
+    await axios.delete(`/api/products/${product._id}`)
+    let res = await dispatch('fetchProducts')
+
+    return res.data
+  },
+
   async putProduct({
     state,
     dispatch
   }, product) {
     await axios.put('/api/products', product)
     let res = await dispatch('fetchProducts')
-
     return res.data
   },
 

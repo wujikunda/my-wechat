@@ -23,7 +23,8 @@
             td
               button.btn(@click='eidtProduct(item)')
                 .material-icon(style='font-size: 20px') edit
-
+              button.btn(@click='deleteProduct(item)')
+                .material-icon(style='font-size: 20px') delete
   .edit-product(:class='{active: editing}')
     .edit-header
       .material-icon edit
@@ -91,6 +92,7 @@ export default {
       title: '商品列表'
     }
   },
+  layout: 'admin',
   data() {
     return {
       isProduct: false,
@@ -131,6 +133,9 @@ export default {
       this.isProduct = true
       this.editing = true
     },
+    deleteProduct(item) {
+      this.$store.dispatch('deleteProduct', item)
+    },
     createProduct() {
       this.edited = {
         images: [],
@@ -163,22 +168,20 @@ export default {
       this.edited.images.splice(index, 1)
     },
     async getUptoken(key) {
-      let res = await axios.get('/api/qiniu/token', {
+      let res = await axios.get('/qiniu/token', {
         params: {
           key: key
         }
       })
-      console.log(res)
-      return res.data.token
+      return res.data.data.token
     },
     async uploadImg(e) {
       this.upload.dashoffset = this.upload.dasharray
       var file = e.target.files[0]
       var key = randomToken(32)
-
       key = `relatedproducts/${key}`
       let token = await this.getUptoken(key)
-
+      console.log('token', token)
       let uptoken = {
         uptoken: token,
         key: Buffer.from(key).toString('base64')

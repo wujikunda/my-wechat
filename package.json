@@ -14,8 +14,10 @@
   "dependencies": {
     "awe-dnd": "^0.3.1",
     "axios": "^0.17.1",
+    "bcrypt": "^1.0.3",
     "cheerio": "^1.0.0-rc.2",
     "cross-env": "^5.0.0",
+    "crypto": "^1.0.1",
     "ejs": "^2.5.7",
     "formstream": "^1.1.0",
     "koa": "^2.0.0",
@@ -39,7 +41,9 @@
     "socks5-http-client": "^1.0.2",
     "source-map-support": "^0.4.15",
     "vue-awesome-swiper": "^3.1.2",
-    "xml2js": "^0.4.19"
+    "wechat-pay": "^0.3.2",
+    "xml2js": "^0.4.19",
+    "xss": "^0.3.7"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",

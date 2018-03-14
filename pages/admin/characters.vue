@@ -60,6 +60,7 @@ export default {
       title: '角色数据修改'
     }
   },
+  layout: 'admin',
   data() {
     return {
       edited: {},

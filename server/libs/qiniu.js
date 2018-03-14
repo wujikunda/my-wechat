@@ -8,9 +8,18 @@ qiniu.conf.SECRET_KEY = config.qiniu.SK
 const bucket = config.qiniu.bucket
 
 // const bucketManager = new qiniu.rs.Client()
-
-const uptoken = (key) => new qiniu.rs.PutPolicy(`${bucket}:${key}`).token()
-
+// var mac = new qiniu.auth.digest.Mac(accessKey, secretKey)
+// var config = new qiniu.conf.Config()
+// config.useHttpsDomain = true
+// config.zone = qiniu.zone.Zone_z2
+// var bucketManager = new qiniu.rs.BucketManager(mac, config)
+const mac = new qiniu.auth.digest.Mac(qiniu.conf.ACCESS_KEY, qiniu.conf.SECRET_KEY)
+let options = {
+  scope: bucket
+}
+let putPolicy = new qiniu.rs.PutPolicy(options)
+// const uptoken = (key) => new qiniu.rs.PutPolicy(`${bucket}:${key}`).token()
+const uptoken = (key) => putPolicy.uploadToken(mac)
 const uploadFile = (uptoken, key, localFile) => new Promise((resolve, reject) => {
   var extra = new qiniu.io.PutExtra()
 

@@ -43,8 +43,7 @@ class Services {
    * @return {Promise}
    */
   allProducts() {
-    return axios.get(`${baseUrl}/wiki/products`)
-    // return axios.get(`${baseUrl}/api/products`)
+    return axios.get(`${baseUrl}/api/products`)
   }
 
   /**
@@ -53,8 +52,7 @@ class Services {
    * @return {Promise}
    */
   focusProduct(id) {
-    return axios.get(`${baseUrl}/wiki/products/${id}`)
-    // return axios.get(`${baseUrl}/api/products/${id}`)
+    return axios.get(`${baseUrl}/api/products/${id}`)
   }
 
   /**
@@ -89,7 +87,15 @@ class Services {
   getWechatOAuth(url) {
     return axios.get(`${baseUrl}/wechat-oauth?url=${encodeURIComponent(url)}`)
   }
-
+  // 创建订单
+  createOrder({productId, name, address, phoneNumber}) {
+    return axios.post(`${baseUrl}/wechat-pay`, {
+      productId,
+      name,
+      address,
+      phoneNumber
+    })
+  }
   /**
    * 服务器爬 IMDb 上所有权游卡司的数据
    * @return {Promise}
@@ -107,7 +113,7 @@ class Services {
   }
 
   getPayments() {
-    return axios.get(`${baseUrl}/wiki/payments`)
+    return axios.get(`${baseUrl}/admin/payments`)
     // return axios.get('/api/payments')
   }
   /**

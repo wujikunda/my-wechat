@@ -10,7 +10,7 @@ const r = path => resolve(__dirname, path)
 
 const host = process.env.HOST || '127.0.0.1'
 const port = process.env.PORT || 9020
-const MIDDLEWARES = ['database', 'router']
+const MIDDLEWARES = ['database', 'general', 'router']
 
 class Server {
   constructor() {
@@ -37,6 +37,7 @@ class Server {
     this.app.use(async (ctx, next) => {
       await next()
       ctx.status = 200 // koa defaults to 404 when it sees that status is unset
+      ctx.req.session = ctx.session
       return new Promise((resolve, reject) => {
         ctx.res.on('close', resolve)
         ctx.res.on('finish', resolve)

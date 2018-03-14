@@ -6,6 +6,7 @@ import R from 'ramda'
 import _ from 'lodash'
 
 const models = resolve(__dirname, '../database/schema')
+
 fs.readdirSync(models)
   .filter(file => ~file.search(/^[^\.].*\.js$/))
   .forEach(file => require(resolve(models, file)))
@@ -37,11 +38,15 @@ export const database = app => {
     console.log('Connect to MongoDB', config.db)
     const WikiHouse = mongoose.model('WikiHouse')
     const WikiCharacter = mongoose.model('WikiCharacter')
+    const User = mongoose.model('User')
 
     let existWikiCharacter = await WikiCharacter.find({}).exec()
     if (!existWikiCharacter.length) WikiCharacter.insertMany(wikiCharacters)
 
     let existwikiHouses = await WikiHouse.find({}).exec()
     if (!existwikiHouses.length) WikiHouse.insertMany(wikiHouses)
+
+    let user = await User.findOne({email: 'admin'}).exec()
+    if (!user) new User({email: 'admin', password: 'admin123', role: 'admin'}).save()
   })
 }

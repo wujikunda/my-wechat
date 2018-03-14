@@ -32,6 +32,7 @@
 import { mapState } from 'vuex'
 
 export default {
+  middleware: 'wechat-auth',
   head() {
     return {
       // 本页面的<head>中的<title>
