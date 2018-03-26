@@ -1,17 +1,17 @@
 <template lang="pug">
-.container(v-if="payments.length")
+.container()
   .user
     .user-header
       .user-header-text {{ authUser.nickname }}
       img(:src="authUser.avatarUrl")
     .user-address
-      cell(title='收获地址' iconName='place')
+      cell(title='收获地址')
       .user-content {{ authUser.address }}
     .user-phone
-      cell(title='电话' iconName='phone_iphone')
+      cell(title='电话')
       .user-content {{ authUser.phoneNumber }}
     .user-name
-      cell(title='姓名' iconName='account_box')
+      cell(title='姓名')
       .user-content {{ authUser.name }}
     .user-order(v-if="payments.length")
       cell(title='我的订单' iconName='list')

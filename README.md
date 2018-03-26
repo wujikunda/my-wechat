@@ -1,7 +1,8 @@
 # my-wechat
 
-> Nuxt.js project
-
+> 基于nuxt开发的vue-ssr项目
+- 技术点 vue nuxt graphql qiniusdk restfulapi es7修饰器 
+- https://ssr.wjkapp.top
 ## Build Setup
 
 ``` bash

@@ -122,8 +122,17 @@ export default {
       data
     } = await Services.getPayments()
     console.log(data)
-    state.payments = data.payments
+    state.payments = data.data
     state.authUser = data.authUser
+    if (!state.authUser) {
+      state.authUser = {
+        nickname: '小可爱',
+        address: '西安省安康市瀛湖一家人',
+        phoneNumber: '18699944411',
+        name: '帕拉斯'
+      }
+    }
+    console.log('state.authUser', state.authUser)
     return data
   },
 
